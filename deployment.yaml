@@ -1,43 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
-    app: demo
-  name: demo
+    app: infrack
+  name: infrack-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo
+      app: infrack
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: demo
+        app: infrack
     spec:
       containers:
-      - image: springguides/demo
-        name: demo
-        resources: {}
+      - image: bproenca/infrack:s3j17azul
+        name: infrack
+        resources: 
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 256Mi
+            cpu: 500m
+        env:
+          - name: JAVA_OPTS
+            value: -Xms50M -Xmx100M -XX:+ExitOnOutOfMemoryError
+            #value: -Xms50M -Xmx100M
 status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
-    app: demo
-  name: demo
+    app: infrack
+  name: infrack-service
 spec:
   ports:
-  - name: 8080-8080
+  - name: infrack-port
     port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
-    app: demo
+    app: infrack
   type: ClusterIP
 status:
   loadBalancer: {}
