@@ -50,17 +50,18 @@ public class ControllerDemo {
         return retorno;
 	}
     
-    @GetMapping("/error")
-	public String error() {
-        log.info("## Error");
+    @GetMapping("/doerror")
+	public String doerror() {
+        log.info("## ThrowError");
         if (counter != null) {
-            throw new ExceptionDemo();
+            throw new ExceptionDemo("Fake Error");
         }
         return "n/a error";
 	}
 
     @GetMapping("/exit")
 	public String exit() {
+        log.info("## Exit");
         System.exit(0);
         log.info("n/a exit");
         return "n/a exit";
@@ -68,13 +69,14 @@ public class ControllerDemo {
     
     @GetMapping("/memory")
     public void memory() {
+        log.info("## Memory");
         List<Object> list = new ArrayList<Object>();
         int cnt = 0;
         while (true) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("Sleep error", e);
             }
             byte b[] = new byte[10485760]; //10mb
             list.add(b);
