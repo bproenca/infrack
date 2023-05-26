@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  infrack:
+    image: bproenca/infrack:s3j17azul
+    restart: always
+    ports:
+      - "8181:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 70M
+    environment:
+      - JAVA_OPTS=-Xmx50M
