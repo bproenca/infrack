@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:17-jre-headless
+FROM azul/zulu-openjdk-alpine:17.0.12-17.52
 COPY /target/*.jar /app/app.jar
 ENV TZ=GMT-3
 WORKDIR /app
